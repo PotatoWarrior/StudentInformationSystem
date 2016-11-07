@@ -61,6 +61,8 @@ public class ApplicationController implements Controller {
                 case 11:
                     addFromFile();
                     break;
+                case 12:
+                    System.exit(0);
             }
         }
 
@@ -79,6 +81,7 @@ public class ApplicationController implements Controller {
         view.addItemToMenu(9, "Search groups");
         view.addItemToMenu(10, "Save to file");
         view.addItemToMenu(11, "Add from file");
+        view.addItemToMenu(12, "EXIT");
     }
     private void addStudent(){
         while(true){

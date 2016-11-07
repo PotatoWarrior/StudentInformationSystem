@@ -173,7 +173,8 @@ public class ConsoleView implements View{
         clearScreen();
         while (true) {
             out.print("Enter student name(A-Z): ");
-            String name = in.next().trim();
+            in.nextLine();
+            String name = in.nextLine().trim();
             if (Validator.validateStudentName(name)) return name;
             else {
                 clearScreen();
@@ -185,7 +186,8 @@ public class ConsoleView implements View{
         clearScreen();
         while(true){
             out.print("Enter department name(A-Z): ");
-            String department = in.next().trim();
+            in.nextLine();
+            String department = in.nextLine().trim();
             if(Validator.validateGroupDepartment(department)) return department;
             else {
                 clearScreen();
@@ -221,7 +223,8 @@ public class ConsoleView implements View{
         clearScreen();
         while(true){
             out.print("* - any number of symbols \n ? - 0 or 1 symbol \n Enter search query: ");
-            String query = in.next().trim();
+            in.nextLine();
+            String query = in.nextLine().trim();
             if(Validator.validateSearchQuery(query)) return query;
             else {
                 clearScreen();

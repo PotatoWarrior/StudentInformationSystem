@@ -7,6 +7,7 @@ import application.exceptions.NoSuchGroupException;
 import application.model.dao.StudentGroupDao;
 import application.model.dao.XMLStudentGroupDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupModel implements Model<Group>{
@@ -33,7 +34,13 @@ public class GroupModel implements Model<Group>{
 
     @Override
     public List<Group> search(String query) {
-        throw new UnsupportedOperationException();
+        query = query.replace("?", ".?").replace("*", ".*");
+
+        List<Group> result = new ArrayList<>();
+        for(Group g : dao.getGroups()){
+            if(g.getDepartment().matches(query)) result.add(g);
+        }
+        return result;
     }
 
     @Override

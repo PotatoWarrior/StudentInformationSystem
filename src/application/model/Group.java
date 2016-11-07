@@ -1,5 +1,7 @@
 package application.model;
 
+import application.model.validator.Validator;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,18 +12,21 @@ public class Group {
 
     public Group(){}
 
-    public Group(int number, String fac) {
-        this.number = number;
-        this.department = fac;
+    public Group(int number, String department) {
+        setNumber(number);
+        setDepartment(department);
     }
 
     @XmlElement
     public void setNumber(int number) {
+        if(!Validator.validateGroupNumber(number)) throw new IllegalArgumentException("number = " + number);
         this.number = number;
     }
 
     @XmlElement
     public void setDepartment(String department) {
+        if(department == null) throw new NullPointerException();
+        if(!Validator.validateGroupDepartment(department)) throw new IllegalArgumentException("department = " + department);
         this.department = department;
     }
 

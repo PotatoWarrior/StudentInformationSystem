@@ -53,15 +53,19 @@ public class ApplicationController implements Controller {
                     showGroups();
                     break;
                 case 9:
-                    save();
+                    searchGroup();
                     break;
                 case 10:
+                    save();
+                    break;
+                case 11:
                     addFromFile();
                     break;
             }
         }
 
     }
+
     private void initMenu(){
         view.addItemToMenu(0, "Add student");
         view.addItemToMenu(1, "Delete student");
@@ -72,8 +76,9 @@ public class ApplicationController implements Controller {
         view.addItemToMenu(6, "Delete group");
         view.addItemToMenu(7, "Update group");
         view.addItemToMenu(8, "Show groups");
-        view.addItemToMenu(9, "Save to file");
-        view.addItemToMenu(10, "Add from file");
+        view.addItemToMenu(9, "Search groups");
+        view.addItemToMenu(10, "Save to file");
+        view.addItemToMenu(11, "Add from file");
     }
     private void addStudent(){
         while(true){
@@ -160,6 +165,18 @@ public class ApplicationController implements Controller {
     }
     private void showGroups(){
         view.showGroups(this.groupModel.getAll());
+    }
+    private void searchGroup() {
+        while(true){
+            String query = this.view.getSearchQuery();
+            try {
+                List<Group> result = this.groupModel.search(query);
+                this.view.showGroups(result);
+                break;
+            } catch (IncorrectSearchQuery e) {
+                this.view.showException(e);
+            }
+        }
     }
     private void addFromFile(){
         while(true){

@@ -1,5 +1,7 @@
 package application.model;
 
+import application.model.validator.Validator;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,13 +13,15 @@ public class Student {
 
     public Student() {}
     public Student(String name, Group group, String date) {
-        this.name = name;
-        this.group = group;
-        this.enrollMentDate = date;
+        setName(name);
+        setGroup(group);
+        setEnrollMentDate(date);
     }
 
     @XmlElement
     public void setName(String name) {
+        if(name == null) throw new NullPointerException();
+        if(!Validator.validateStudentName(name)) throw new IllegalArgumentException("name = " + name);
         this.name = name;
     }
 
@@ -28,6 +32,8 @@ public class Student {
 
     @XmlElement
     public void setEnrollMentDate(String enrollMentDate) {
+        if(enrollMentDate == null) throw new NullPointerException();
+        if(!Validator.validateDate(enrollMentDate)) throw new IllegalArgumentException("enrollment date = " + enrollMentDate);
         this.enrollMentDate = enrollMentDate;
     }
 

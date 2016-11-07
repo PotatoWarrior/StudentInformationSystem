@@ -160,72 +160,72 @@ public class ConsoleView implements View{
     private String getDateInput(){
         clearScreen();
         while (true) {
-            out.print("Enrollment date: ");
+            out.print("Enter enrollment date(dd.mm.yyyy): ");
             String date = in.next().trim();
             if (Validator.validateDate(date)) return date;
             else {
                 clearScreen();
-                out.println("Wrong date!!!");
+                out.println("Wrong date format, try again...\n");
             }
         }
     }
     private String getStudentNameInput(){
         clearScreen();
         while (true) {
-            out.print("Student name: ");
+            out.print("Enter student name(A-Z): ");
             String name = in.next().trim();
             if (Validator.validateStudentName(name)) return name;
             else {
                 clearScreen();
-                out.println("Wrong name!!!");
+                out.println("Incorrect name, try again...\n");
             }
         }
     }
     private String getDepartmentInput(){
         clearScreen();
         while(true){
-            out.print("Department: ");
+            out.print("Enter department name(A-Z): ");
             String department = in.next().trim();
             if(Validator.validateGroupDepartment(department)) return department;
             else {
                 clearScreen();
-                out.println("Wrong department!!!");
+                out.println("Incorrect department name, try again...\n");
             }
         }
     }
     private int getGroupNumberInput(){
         clearScreen();
         while(true){
-            out.print("Group number: ");
+            out.print("Enter group number: ");
             String number = in.next().trim();
             if(Validator.validateGroupNumber(number)) return Integer.parseInt(number);
             else {
                 clearScreen();
-                out.println("Wrong number!!!");
+                out.println("Incorrect group number, try again...\n");
             }
         }
     }
     private String getFileNameInput(){
         clearScreen();
         while(true){
-            out.print("File: ");
+            out.print("Enter file name: ");
             String file = in.next().trim();
             if(Validator.validateFileName(file)) return file;
             else {
                 clearScreen();
-                out.println("Wrong file!!!");
+                out.println("Incorrect file name, try again...\n");
             }
         }
     }
     private String getSearchQueryInput(){
         clearScreen();
         while(true){
-            out.print("Search query: ");
+            out.print("* - any number of symbols \n ? - 0 or 1 symbol \n Enter search query: ");
             String query = in.next().trim();
             if(Validator.validateSearchQuery(query)) return query;
             else {
                 clearScreen();
-                out.println("Wrong query!!!");
+                out.println("Incorrect search query, try again...\n");
             }
         }
     }

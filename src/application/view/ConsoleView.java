@@ -1,12 +1,17 @@
 package application.view;
 
 
+import application.constants.ExceptionConstants;
+import application.constants.ViewConstants;
 import application.model.Group;
 import application.model.Student;
 import application.model.validator.Validator;
 
 import java.io.PrintStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,7 +49,7 @@ public class ConsoleView implements View{
     @Override
     public void addItemToMenu(int order, String item) {
         MenuItem menuItem = new MenuItem(item, order);
-        if(this.items.contains(menuItem)) throw new IllegalArgumentException("Item with this order already exists");
+        if(this.items.contains(menuItem)) throw new IllegalArgumentException(ExceptionConstants.MENU_EXCEPTION);
         this.items.add(menuItem);
     }
 
@@ -89,8 +94,8 @@ public class ConsoleView implements View{
         String name = getStudentNameInput();
         s.setName(name);
 
-        String data = getDateInput();
-        s.setEnrollMentDate(data);
+        Date date = getDateInput();
+        s.setEnrollmentDate(date);
 
         int number = getGroupNumberInput();
         g.setNumber(number);
@@ -115,7 +120,9 @@ public class ConsoleView implements View{
         clearScreen();
         for(Student s : students)
             out.println(s);
-        in.next();
+        out.println(ViewConstants.BACK_TO_MENU);
+        in.nextLine();
+        in.nextLine();
     }
 
     @Override
@@ -136,7 +143,9 @@ public class ConsoleView implements View{
         clearScreen();
         for(Group g : groups)
             out.println(g);
-        in.next();
+        out.println(ViewConstants.BACK_TO_MENU);
+        in.nextLine();
+        in.nextLine();
     }
 
     @Override
@@ -155,80 +164,91 @@ public class ConsoleView implements View{
     public void showException(Exception e) {
         clearScreen();
         out.println(e);
-        in.next();
+        out.println(ViewConstants.AFTER_EXCEPTION);
+        in.nextLine();
     }
-    private String getDateInput(){
+    private Date getDateInput(){
+        SimpleDateFormat dateFormat = Validator.getDateFormat();
+        String pattern = dateFormat.toPattern();
+
         clearScreen();
         while (true) {
-            out.print("Enter enrollment date(dd.mm.yyyy): ");
+            out.print(ViewConstants.ENTER_DATE + "(" + pattern + "): ");
             String date = in.next().trim();
-            if (Validator.validateDate(date)) return date;
-            else {
+            try {
+                return dateFormat.parse(date);
+            } catch (ParseException e) {
                 clearScreen();
-                out.println("Wrong date format, try again...\n");
+                out.println(ViewConstants.WRONG_DATE_FORMAT);
+                out.println();
             }
         }
     }
     private String getStudentNameInput(){
+        in.nextLine();
         clearScreen();
         while (true) {
-            out.print("Enter student name(A-Z): ");
-            in.nextLine();
+            out.print(ViewConstants.ENTER_NAME);
             String name = in.nextLine().trim();
             if (Validator.validateStudentName(name)) return name;
             else {
                 clearScreen();
-                out.println("Incorrect name, try again...\n");
+                out.println(ViewConstants.INCORRECT_NAME);
+                out.println();
             }
         }
     }
     private String getDepartmentInput(){
+        in.nextLine();
         clearScreen();
         while(true){
-            out.print("Enter department name(A-Z): ");
-            in.nextLine();
+            out.print(ViewConstants.ENTER_DEPARTMENT);
             String department = in.nextLine().trim();
             if(Validator.validateGroupDepartment(department)) return department;
             else {
                 clearScreen();
-                out.println("Incorrect department name, try again...\n");
+                out.println(ViewConstants.INCORRECT_DEPARTMENT);
+                out.println();
             }
         }
     }
     private int getGroupNumberInput(){
         clearScreen();
         while(true){
-            out.print("Enter group number: ");
+            out.print(ViewConstants.ENTER_NUMBER);
             String number = in.next().trim();
             if(Validator.validateGroupNumber(number)) return Integer.parseInt(number);
             else {
                 clearScreen();
-                out.println("Incorrect group number, try again...\n");
+                out.println(ViewConstants.INCORRECT_NUMBER);
+                out.println();
             }
         }
     }
     private String getFileNameInput(){
         clearScreen();
         while(true){
-            out.print("Enter file name: ");
+            out.print(ViewConstants.FILE_NAME);
             String file = in.next().trim();
             if(Validator.validateFileName(file)) return file;
             else {
                 clearScreen();
-                out.println("Incorrect file name, try again...\n");
+                out.println(ViewConstants.INCORRECT_FILE);
+                out.println();
             }
         }
     }
     private String getSearchQueryInput(){
         clearScreen();
         while(true){
-            out.print("* - any number of symbols \n ? - 0 or 1 symbol \n Enter search query: ");
+            out.print(ViewConstants.ENTER_SEARCH_QUERY);
             in.nextLine();
             String query = in.nextLine().trim();
             if(Validator.validateSearchQuery(query)) return query;
             else {
                 clearScreen();
-                out.println("Incorrect search query, try again...\n");
+                out.println(ViewConstants.INCORRECT_SEARCH_QUERY);
+                out.println();
             }
         }
     }

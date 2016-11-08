@@ -1,11 +1,17 @@
 package application.model.validator;
 
+import application.constants.RegularExpressions;
+
+import java.text.SimpleDateFormat;
+
 public class Validator {
-    public static boolean validateDate(String date){
-        return new DateValidator().validate(date);
+    public static SimpleDateFormat getDateFormat(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(RegularExpressions.DATE_FORMAT);
+        dateFormat.setLenient(false);
+        return dateFormat;
     }
     public static boolean validateStudentName(String name){
-        return name.matches("[a-zA-Z ]+");
+        return name.matches(RegularExpressions.STUDENT_NAME);
     }
     public static boolean validateGroupNumber(String number){
         try{
@@ -18,12 +24,12 @@ public class Validator {
         return number >= 0;
     }
     public static boolean validateGroupDepartment(String department){
-        return department.matches("[a-zA-Z ]+");
+        return department.matches(RegularExpressions.GROUP_DEPARTMENT);
     }
     public static boolean validateFileName(String file){
-        return file.matches("[a-zA-Z0-9/:.]+");
+        return file.matches(RegularExpressions.FILE_NAME);
     }
     public static boolean validateSearchQuery(String query){
-        return query.matches("[a-zA-Z?* ]+");
+        return query.matches(RegularExpressions.SEARCH_QUERY);
     }
 }

@@ -1,8 +1,10 @@
 package application.exceptions;
 
+import application.constants.ExceptionConstants;
+
 public class IncorrectSearchQuery extends Exception {
     @Override
     public String toString() {
-        return "Incorrect search query";
+        return ExceptionConstants.INCORRECT_SEARCH_QUERY;
     }
 }

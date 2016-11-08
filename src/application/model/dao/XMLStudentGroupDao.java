@@ -1,6 +1,7 @@
 package application.model.dao;
 
 
+import application.constants.XMLTags;
 import application.exceptions.*;
 import application.model.Group;
 import application.model.Student;
@@ -15,17 +16,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-@XmlRootElement(name = "entries")
+@XmlRootElement(name = XMLTags.ROOT_ELEMENT)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XMLStudentGroupDao implements StudentGroupDao{
-    @XmlElement(name = "student")
+    @XmlElement(name = XMLTags.STUDENT_ELEMENT)
     private List<Student> students;
 
-    @XmlElement(name = "group")
+    @XmlElement(name = XMLTags.GROUP_ELEMENT)
     private List<Group> groups;
 
     private static XMLStudentGroupDao instance;
@@ -72,7 +74,12 @@ public class XMLStudentGroupDao implements StudentGroupDao{
     @Override
     public void deleteGroup(Group group) throws NoSuchGroupException {
         if (!this.groups.remove(group)) throw new NoSuchGroupException();
-        this.students.stream().filter(s -> s.getGroup().equals(group)).forEach(s -> this.students.remove(s));
+        Iterator<Student> iterator = this.students.iterator();
+        while(iterator.hasNext()){
+            Student s = iterator.next();
+            if(s.getGroup().equals(group))
+                iterator.remove();
+        }
     }
     @Override
     public void updateGroup(Group oldGroup, Group newGroup) throws NoSuchGroupException, GroupAlreadyExistsException {

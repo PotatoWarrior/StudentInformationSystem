@@ -1,11 +1,13 @@
 package application.model;
 
+import application.constants.ModelConstants;
+import application.constants.XMLTags;
 import application.model.validator.Validator;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="group")
+@XmlRootElement(name = XMLTags.GROUP_ELEMENT)
 public class Group {
     private int number;
     private String department;
@@ -19,14 +21,14 @@ public class Group {
 
     @XmlElement
     public void setNumber(int number) {
-        if(!Validator.validateGroupNumber(number)) throw new IllegalArgumentException("number = " + number);
+        if(!Validator.validateGroupNumber(number)) throw new IllegalArgumentException(ModelConstants.NUMBER + " = " + number);
         this.number = number;
     }
 
     @XmlElement
     public void setDepartment(String department) {
         if(department == null) throw new NullPointerException();
-        if(!Validator.validateGroupDepartment(department)) throw new IllegalArgumentException("department = " + department);
+        if(!Validator.validateGroupDepartment(department)) throw new IllegalArgumentException(ModelConstants.DEPARTMENT + " = " + department);
         this.department = department;
     }
 
@@ -48,6 +50,6 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Group " + this.number + ", department: " + this.department;
+        return ModelConstants.GROUP + " " + this.number + ", " + ModelConstants.DEPARTMENT + ": " + this.department;
     }
 }

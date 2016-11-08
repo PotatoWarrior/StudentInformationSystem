@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.constants.MenuItems;
 import application.exceptions.DaoException;
 import application.exceptions.IncorrectFileException;
 import application.exceptions.IncorrectSearchQuery;
@@ -69,19 +70,19 @@ public class ApplicationController implements Controller {
     }
 
     private void initMenu(){
-        view.addItemToMenu(0, "Add student");
-        view.addItemToMenu(1, "Delete student");
-        view.addItemToMenu(2, "Update student");
-        view.addItemToMenu(3, "Show students");
-        view.addItemToMenu(4, "Search student");
-        view.addItemToMenu(5, "Add group");
-        view.addItemToMenu(6, "Delete group");
-        view.addItemToMenu(7, "Update group");
-        view.addItemToMenu(8, "Show groups");
-        view.addItemToMenu(9, "Search groups");
-        view.addItemToMenu(10, "Save to file");
-        view.addItemToMenu(11, "Add from file");
-        view.addItemToMenu(12, "EXIT");
+        view.addItemToMenu(0, MenuItems.ADD_STUDENT);
+        view.addItemToMenu(1, MenuItems.DELETE_STUDENT);
+        view.addItemToMenu(2, MenuItems.UPDATE_STUDENT);
+        view.addItemToMenu(3, MenuItems.SHOW_STUDENTS);
+        view.addItemToMenu(4, MenuItems.SEARCH_STUDENT);
+        view.addItemToMenu(5, MenuItems.ADD_GROUP);
+        view.addItemToMenu(6, MenuItems.DELETE_GROUP);
+        view.addItemToMenu(7, MenuItems.UPDATE_GROUP);
+        view.addItemToMenu(8, MenuItems.SHOW_GROUPS);
+        view.addItemToMenu(9, MenuItems.SEARCH_GROUPS);
+        view.addItemToMenu(10, MenuItems.SAVE_FILE);
+        view.addItemToMenu(11, MenuItems.ADD_FILE);
+        view.addItemToMenu(12, MenuItems.EXIT);
     }
     private void addStudent(){
         while(true){

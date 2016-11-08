@@ -1,9 +1,11 @@
 package application.exceptions;
 
 
+import application.constants.ExceptionConstants;
+
 public class NoSuchGroupException extends DaoException {
     @Override
     public String toString() {
-        return "Group not found";
+        return ExceptionConstants.NO_SUCH_GROUP;
     }
 }

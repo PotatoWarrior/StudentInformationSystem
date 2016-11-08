@@ -1,27 +1,31 @@
 package application.model;
 
+import application.constants.ModelConstants;
+import application.constants.XMLTags;
 import application.model.validator.Validator;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-@XmlRootElement(name="group")
+@XmlRootElement(name = XMLTags.STUDENT_ELEMENT)
 public class Student {
     private String name;
     private Group group;
-    private String enrollMentDate;
+    private Date enrollmentDate;
 
     public Student() {}
-    public Student(String name, Group group, String date) {
+    public Student(String name, Group group, Date date) {
         setName(name);
         setGroup(group);
-        setEnrollMentDate(date);
+        setEnrollmentDate(date);
     }
 
     @XmlElement
     public void setName(String name) {
         if(name == null) throw new NullPointerException();
-        if(!Validator.validateStudentName(name)) throw new IllegalArgumentException("name = " + name);
+        if(!Validator.validateStudentName(name)) throw new IllegalArgumentException(ModelConstants.NAME + name);
         this.name = name;
     }
 
@@ -31,10 +35,9 @@ public class Student {
     }
 
     @XmlElement
-    public void setEnrollMentDate(String enrollMentDate) {
-        if(enrollMentDate == null) throw new NullPointerException();
-        if(!Validator.validateDate(enrollMentDate)) throw new IllegalArgumentException("enrollment date = " + enrollMentDate);
-        this.enrollMentDate = enrollMentDate;
+    public void setEnrollmentDate(Date enrollmentDate) {
+        if(enrollmentDate == null) throw new NullPointerException();
+        this.enrollmentDate = enrollmentDate;
     }
 
     public String getName() {
@@ -45,8 +48,8 @@ public class Student {
         return group;
     }
 
-    public String getEnrollMentDate() {
-        return enrollMentDate;
+    public Date getEnrollmentDate() {
+        return enrollmentDate;
     }
 
     @Override
@@ -59,6 +62,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student " + this.name + ", enrollment date: " + this.enrollMentDate + ", " + this.group;
+        SimpleDateFormat dateFormat = Validator.getDateFormat();
+        return ModelConstants.STUDENT + " " + this.name + ", " + ModelConstants.ENROLLMENT_DATE + ": " + dateFormat.format(this.enrollmentDate) + ", " + this.group;
     }
 }

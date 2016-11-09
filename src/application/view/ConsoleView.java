@@ -3,9 +3,10 @@ package application.view;
 
 import application.constants.ExceptionConstants;
 import application.constants.ViewConstants;
-import application.model.Group;
-import application.model.Student;
+import application.model.entity.Group;
+import application.model.entity.Student;
 import application.model.validator.Validator;
+
 
 import java.io.PrintStream;
 import java.text.ParseException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class ConsoleView implements View{
     private Scanner in = new Scanner(System.in);
@@ -61,7 +63,7 @@ public class ConsoleView implements View{
     private int getMenuChoiceInput(){
         while(true){
             showMenu();
-            String number = in.next().trim();
+            String number = in.nextLine().trim();
             try{
                 int choice = Integer.parseInt(number);
                 if(menuRangeCheck(choice)) return choice;
@@ -116,12 +118,17 @@ public class ConsoleView implements View{
     }
 
     @Override
+    public Date getEnrollmentDate() {
+        Date date = getDateInput();
+        return date;
+    }
+
+    @Override
     public void showStudents(List<Student> students) {
         clearScreen();
         for(Student s : students)
             out.println(s);
         out.println(ViewConstants.BACK_TO_MENU);
-        in.nextLine();
         in.nextLine();
     }
 
@@ -139,18 +146,35 @@ public class ConsoleView implements View{
     }
 
     @Override
+    public String getDepartment() {
+        String department = getDepartmentInput();
+        return department;
+    }
+
+    @Override
     public void showGroups(List<Group> groups) {
         clearScreen();
         for(Group g : groups)
             out.println(g);
         out.println(ViewConstants.BACK_TO_MENU);
         in.nextLine();
-        in.nextLine();
     }
 
     @Override
-    public String getSearchQuery() {
-        String query = getSearchQueryInput();
+    public String getNameSearchQuery() {
+        String query = getSearchQueryInput(Validator::validateNameSearchQuery, ViewConstants.QUERY_FOR_NAME);
+        return query;
+    }
+
+    @Override
+    public String getNumberSearchQuery() {
+        String query = getSearchQueryInput(Validator::validateNumberSearchQuery, ViewConstants.QUERY_FOR_NUMBER);
+        return query;
+    }
+
+    @Override
+    public String getDateSearchQuery() {
+        String query = getSearchQueryInput(Validator::validateDateSearchQuery, ViewConstants.QUERY_FOR_DATE);
         return query;
     }
 
@@ -174,7 +198,7 @@ public class ConsoleView implements View{
         clearScreen();
         while (true) {
             out.print(ViewConstants.ENTER_DATE + "(" + pattern + "): ");
-            String date = in.next().trim();
+            String date = in.nextLine().trim();
             try {
                 return dateFormat.parse(date);
             } catch (ParseException e) {
@@ -185,7 +209,6 @@ public class ConsoleView implements View{
         }
     }
     private String getStudentNameInput(){
-        in.nextLine();
         clearScreen();
         while (true) {
             out.print(ViewConstants.ENTER_NAME);
@@ -199,7 +222,6 @@ public class ConsoleView implements View{
         }
     }
     private String getDepartmentInput(){
-        in.nextLine();
         clearScreen();
         while(true){
             out.print(ViewConstants.ENTER_DEPARTMENT);
@@ -216,7 +238,7 @@ public class ConsoleView implements View{
         clearScreen();
         while(true){
             out.print(ViewConstants.ENTER_NUMBER);
-            String number = in.next().trim();
+            String number = in.nextLine().trim();
             if(Validator.validateGroupNumber(number)) return Integer.parseInt(number);
             else {
                 clearScreen();
@@ -229,7 +251,7 @@ public class ConsoleView implements View{
         clearScreen();
         while(true){
             out.print(ViewConstants.FILE_NAME);
-            String file = in.next().trim();
+            String file = in.nextLine().trim();
             if(Validator.validateFileName(file)) return file;
             else {
                 clearScreen();
@@ -238,13 +260,13 @@ public class ConsoleView implements View{
             }
         }
     }
-    private String getSearchQueryInput(){
+    private String getSearchQueryInput(Predicate<String> predicate, String msg){
         clearScreen();
         while(true){
-            out.print(ViewConstants.ENTER_SEARCH_QUERY);
-            in.nextLine();
+            out.println(ViewConstants.SEARCH_QUERY_HELPER);
+            out.print(msg);
             String query = in.nextLine().trim();
-            if(Validator.validateSearchQuery(query)) return query;
+            if(predicate.test(query)) return query;
             else {
                 clearScreen();
                 out.println(ViewConstants.INCORRECT_SEARCH_QUERY);

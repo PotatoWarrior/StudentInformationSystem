@@ -1,9 +1,10 @@
 package application.view;
 
 
-import application.model.Group;
-import application.model.Student;
+import application.model.entity.Group;
+import application.model.entity.Student;
 
+import java.util.Date;
 import java.util.List;
 
 public interface View {
@@ -12,12 +13,16 @@ public interface View {
 
     Student getStudent();
     Student getStudentName();
+    Date getEnrollmentDate();
     void showStudents(List<Student> students);
 
     Group getGroup();
+    String getDepartment();
     void showGroups(List<Group> groups);
 
-    String getSearchQuery();
+    String getNameSearchQuery();
+    String getNumberSearchQuery();
+    String getDateSearchQuery();
 
     String getFileName();
 

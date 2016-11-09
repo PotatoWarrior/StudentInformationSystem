@@ -2,8 +2,8 @@ package application.model.dao;
 
 
 import application.exceptions.*;
-import application.model.Group;
-import application.model.Student;
+import application.model.entity.Group;
+import application.model.entity.Student;
 
 import java.util.List;
 

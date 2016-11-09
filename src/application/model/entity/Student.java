@@ -1,4 +1,4 @@
-package application.model;
+package application.model.entity;
 
 import application.constants.ModelConstants;
 import application.constants.XMLTags;
@@ -24,8 +24,6 @@ public class Student {
 
     @XmlElement
     public void setName(String name) {
-        if(name == null) throw new NullPointerException();
-        if(!Validator.validateStudentName(name)) throw new IllegalArgumentException(ModelConstants.NAME + name);
         this.name = name;
     }
 
@@ -36,7 +34,6 @@ public class Student {
 
     @XmlElement
     public void setEnrollmentDate(Date enrollmentDate) {
-        if(enrollmentDate == null) throw new NullPointerException();
         this.enrollmentDate = enrollmentDate;
     }
 

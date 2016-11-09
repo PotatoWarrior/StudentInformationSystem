@@ -29,7 +29,13 @@ public class Validator {
     public static boolean validateFileName(String file){
         return file.matches(RegularExpressions.FILE_NAME);
     }
-    public static boolean validateSearchQuery(String query){
-        return query.matches(RegularExpressions.SEARCH_QUERY);
+    public static boolean validateNameSearchQuery(String query){
+        return query.matches(RegularExpressions.NAME_SEARCH_QUERY);
+    }
+    public static boolean validateNumberSearchQuery(String query){
+        return query.matches(RegularExpressions.NUMBER_SEARCH_QUERY);
+    }
+    public static boolean validateDateSearchQuery(String query){
+        return query.matches(RegularExpressions.DATE_SEARCH_QUERY);
     }
 }

@@ -15,6 +15,9 @@ public class ViewConstants {
     public static final String INCORRECT_NUMBER = "Incorrect group number, try again...";
     public static final String FILE_NAME = "Enter file name: ";
     public static final String INCORRECT_FILE = "Incorrect file name, try again...";
-    public static final String ENTER_SEARCH_QUERY = "* - any number of symbols \n ? - 0 or 1 symbol \n Enter search query: ";
+    public static final String SEARCH_QUERY_HELPER = "* - any number of symbols \n ? - 0 or 1 symbol";
+    public static final String QUERY_FOR_NAME = "Enter query for name: ";
+    public static final String QUERY_FOR_DATE= "Enter query for date: ";
+    public static final String QUERY_FOR_NUMBER= "Enter query for number: ";
     public static final String INCORRECT_SEARCH_QUERY = "Incorrect search query, try again...";
 }

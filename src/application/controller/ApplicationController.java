@@ -3,19 +3,19 @@ package application.controller;
 import application.constants.MenuItems;
 import application.exceptions.DaoException;
 import application.exceptions.IncorrectFileException;
-import application.exceptions.IncorrectSearchQuery;
-import application.model.Group;
-import application.model.Model;
-import application.model.Student;
+import application.model.GroupModel;
+import application.model.StudentModel;
+import application.model.entity.Group;
+import application.model.entity.Student;
 import application.view.View;
 
 import java.util.List;
 
 public class ApplicationController implements Controller {
-    private Model<Student> studentModel;
-    private Model<Group> groupModel;
+    private StudentModel studentModel;
+    private GroupModel groupModel;
     private View view;
-    public ApplicationController(Model<Student> studentModel, Model<Group> groupModel, View view){
+    public ApplicationController(StudentModel studentModel, GroupModel groupModel, View view){
         this.studentModel = studentModel;
         this.groupModel = groupModel;
         this.view = view;
@@ -39,30 +39,39 @@ public class ApplicationController implements Controller {
                     showStudents();
                     break;
                 case 4:
-                    searchStudent();
+                    searchStudentByName();
                     break;
                 case 5:
-                    addGroup();
+                    searchStudentByGroup();
                     break;
                 case 6:
-                    deleteGroup();
+                    searchStudentByDepartment();
                     break;
                 case 7:
-                    updateGroup();
+                    searchStudentByDate();
                     break;
                 case 8:
-                    showGroups();
+                    addGroup();
                     break;
                 case 9:
-                    searchGroup();
+                    deleteGroup();
                     break;
                 case 10:
-                    save();
+                    updateGroup();
                     break;
                 case 11:
-                    addFromFile();
+                    showGroups();
                     break;
                 case 12:
+                    searchGroupByDepartment();
+                    break;
+                case 13:
+                    save();
+                    break;
+                case 14:
+                    addFromFile();
+                    break;
+                case 15:
                     System.exit(0);
             }
         }
@@ -74,15 +83,18 @@ public class ApplicationController implements Controller {
         view.addItemToMenu(1, MenuItems.DELETE_STUDENT);
         view.addItemToMenu(2, MenuItems.UPDATE_STUDENT);
         view.addItemToMenu(3, MenuItems.SHOW_STUDENTS);
-        view.addItemToMenu(4, MenuItems.SEARCH_STUDENT);
-        view.addItemToMenu(5, MenuItems.ADD_GROUP);
-        view.addItemToMenu(6, MenuItems.DELETE_GROUP);
-        view.addItemToMenu(7, MenuItems.UPDATE_GROUP);
-        view.addItemToMenu(8, MenuItems.SHOW_GROUPS);
-        view.addItemToMenu(9, MenuItems.SEARCH_GROUPS);
-        view.addItemToMenu(10, MenuItems.SAVE_FILE);
-        view.addItemToMenu(11, MenuItems.ADD_FILE);
-        view.addItemToMenu(12, MenuItems.EXIT);
+        view.addItemToMenu(4, MenuItems.SEARCH_STUDENT_BY_NAME);
+        view.addItemToMenu(5, MenuItems.SEARCH_STUDENT_BY_GROUP);
+        view.addItemToMenu(6, MenuItems.SEARCH_STUDENT_BY_DEPARTMENT);
+        view.addItemToMenu(7, MenuItems.SEARCH_STUDENT_BY_DATE);
+        view.addItemToMenu(8, MenuItems.ADD_GROUP);
+        view.addItemToMenu(9, MenuItems.DELETE_GROUP);
+        view.addItemToMenu(10, MenuItems.UPDATE_GROUP);
+        view.addItemToMenu(11, MenuItems.SHOW_GROUPS);
+        view.addItemToMenu(12, MenuItems.SEARCH_GROUPS_BY_DEPARTMENT);
+        view.addItemToMenu(13, MenuItems.SAVE_FILE);
+        view.addItemToMenu(14, MenuItems.ADD_FILE);
+        view.addItemToMenu(15, MenuItems.EXIT);
     }
     private void addStudent(){
         while(true){
@@ -121,17 +133,26 @@ public class ApplicationController implements Controller {
     private void showStudents(){
         view.showStudents(this.studentModel.getAll());
     }
-    private void searchStudent(){
-        while(true){
-            String query = this.view.getSearchQuery();
-            try {
-                List<Student> result = this.studentModel.search(query);
-                this.view.showStudents(result);
-                break;
-            } catch (IncorrectSearchQuery e) {
-                this.view.showException(e);
-            }
-        }
+    private void searchStudentByName(){
+        String query = this.view.getNameSearchQuery();
+        List<Student> result = this.studentModel.searchByName(query);
+        this.view.showStudents(result);
+    }
+    private void searchStudentByGroup(){
+        String numberQuery = this.view.getNumberSearchQuery();
+        String departmentQuery = this.view.getNameSearchQuery();
+        List<Student> result = this.studentModel.searchByGroup(numberQuery, departmentQuery);
+        this.view.showStudents(result);
+    }
+    private void searchStudentByDepartment(){
+        String query = this.view.getNameSearchQuery();
+        List<Student> result = this.studentModel.searchByDepartment(query);
+        this.view.showStudents(result);
+    }
+    private void searchStudentByDate(){
+        String dateQuery = this.view.getDateSearchQuery();
+        List<Student> result = this.studentModel.searchByDate(dateQuery);
+        this.view.showStudents(result);
     }
     private void addGroup(){
         while(true){
@@ -170,17 +191,10 @@ public class ApplicationController implements Controller {
     private void showGroups(){
         view.showGroups(this.groupModel.getAll());
     }
-    private void searchGroup() {
-        while(true){
-            String query = this.view.getSearchQuery();
-            try {
-                List<Group> result = this.groupModel.search(query);
-                this.view.showGroups(result);
-                break;
-            } catch (IncorrectSearchQuery e) {
-                this.view.showException(e);
-            }
-        }
+    private void searchGroupByDepartment() {
+        String query = this.view.getNameSearchQuery();
+        List<Group> result = this.groupModel.searchByDepartment(query);
+        this.view.showGroups(result);
     }
     private void addFromFile(){
         while(true){

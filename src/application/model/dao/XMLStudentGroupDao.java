@@ -3,8 +3,8 @@ package application.model.dao;
 
 import application.constants.XMLTags;
 import application.exceptions.*;
-import application.model.Group;
-import application.model.Student;
+import application.model.entity.Group;
+import application.model.entity.Student;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -58,6 +58,7 @@ public class XMLStudentGroupDao implements StudentGroupDao{
         if(!this.students.remove(oldStudent)) throw new NoSuchStudentException();
         if(this.students.contains(newStudent)) throw new StudentAlreadyExistsException();
         this.students.add(newStudent);
+        if(!this.groups.contains(newStudent.getGroup())) this.groups.add(newStudent.getGroup());
     }
 
     @Override
